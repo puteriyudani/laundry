@@ -22,15 +22,15 @@
                     <h4>Ketentuan</h4>
                     <ul class="latest-post">
                       <li>
-                        <a href="">FAQ</a>
+                        <a href="#">Ketentuan</a>
                       </li>
 
                       <li>
-                        <a href="">Join Laundry</a>
+                        <a href="#">Ketentuan</a>
                       </li>
 
                       <li>
-                        <a href="">Investasi</a>
+                        <a href="#">Ketentuan</a>
                       </li>
                     </ul>
                 </div>

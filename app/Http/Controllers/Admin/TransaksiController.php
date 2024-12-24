@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{transaksi,user};
+use App\Models\{Transaksi};
 use Rupiah;
 
 class TransaksiController extends Controller
@@ -16,80 +16,87 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-      $transaksi = transaksi::with('price')
-      ->orderBy('created_at','desc')->get();
+        // Mengambil transaksi dengan relasi price tanpa melibatkan user_id
+        $transaksi = Transaksi::with('price')
+            ->orderBy('created_at','desc')
+            ->get();
 
-      $filter = User::select('id','name')->where('auth','Karyawan')->get();
-
-      return view('modul_admin.transaksi.index', compact('transaksi','filter'));
-    }
-
-    // Filter Transaksi
-    public function filtertransaksi(Request $request)
-    {
-      if ($request->user_id != 'all') {
-        $transaksi = transaksi::with('price')
-        ->where('user_id', $request->user_id)
-        ->orderBy('created_at','desc')
-        ->get();
-      }elseif($request->user_id == 'all') {
-        $transaksi = transaksi::with('price')
-        ->orderBy('created_at','desc')
-        ->get();
-      }
-
-
-      $return = "";
-      $no=1;
-      foreach($transaksi as $item) {
-        $return .="<tr>
-          <td>".$no."</td>
-          <td>".$item->tgl_transaksi."</td>
-          <td>".$item->customer."</td>
-          <td>".$item->status_order."</td>
-          <td>".$item->status_payment."</td>
-          <td>".$item->price->jenis."</td>";
-          $return .="
-          <input type='hidden' value='".$item->kg * $item->harga."'>
-          <td>".Rupiah::getRupiah($item->kg * $item->harga)."</td>
-          ";
-          if ($item->status_order == "Delivery"){
-              $return .="<td><a href='invoice-customer/$item->id' class='btn btn-sm btn-success style='color:white'>Invoice</a>
-              <a class='btn btn-sm btn-info' style='color:white'>Detail</a></td>";
-          }
-          elseif($item->status_order == "Done")
-          {
-            $return .="<td> <a href='invoice-customer/$item->id' class='btn btn-sm btn-success' style='color:white'>Invoice</a>
-            <a class='btn btn-sm btn-info' style='color:white'>Detail</a></td>";
-          }
-          elseif($item->status_order == "Process")
-          {
-            $return .="<td> <a href='invoice-customer/$item->id' class='btn btn-sm btn-success' style='color:white'>Invoice</a>
-            <a class='btn btn-sm btn-info' style='color:white'>Detail</a></td>";
-          }
-        $return .= "</td>
-        </tr>";
-        $no++;
-      }
-      return $return;
-    }
-
-    // Invoice
-    public function invoice( Request $request)
-    {
-      $invoice = transaksi::with('price')
-      ->where('invoice', $request->invoice)
-      ->orderBy('id','DESC')->get();
-
-      $dataInvoice = transaksi::with('customers.users')
-      ->where('invoice', $request->invoice)
-      ->first();
-
-      return view('modul_admin.transaksi.invoice', compact('invoice','dataInvoice'));
+        return view('modul_admin.transaksi.index', compact('transaksi'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Filter transaksi berdasarkan status atau parameter lainnya.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filtertransaksi(Request $request)
+    {
+        // Menampilkan transaksi tanpa filter user_id, karena tidak ada lagi relasi dengan user_id
+        if ($request->user_id == 'all') {
+            $transaksi = Transaksi::with('price')
+                ->orderBy('created_at','desc')
+                ->get();
+        } else {
+            // Kondisi jika filter berdasarkan parameter lain selain user_id
+            $transaksi = Transaksi::with('price')
+                ->orderBy('created_at','desc')
+                ->get();
+        }
+
+        $return = "";
+        $no = 1;
+        foreach ($transaksi as $item) {
+            $return .= "<tr>
+                <td>".$no."</td>
+                <td>".$item->tgl_transaksi."</td>
+                <td>".$item->customer."</td>
+                <td>".$item->status_order."</td>
+                <td>".$item->status_payment."</td>
+                <td>".$item->price->jenis."</td>";
+            $return .= "
+                <input type='hidden' value='".$item->kg * $item->harga."'>
+                <td>".Rupiah::getRupiah($item->kg * $item->harga)."</td>
+            ";
+            if ($item->status_order == "Delivery") {
+                $return .= "<td><a href='invoice-customer/$item->id' class='btn btn-sm btn-success' style='color:white'>Invoice</a>
+                    <a class='btn btn-sm btn-info' style='color:white'>Detail</a></td>";
+            } elseif ($item->status_order == "Done") {
+                $return .= "<td> <a href='invoice-customer/$item->id' class='btn btn-sm btn-success' style='color:white'>Invoice</a>
+                    <a class='btn btn-sm btn-info' style='color:white'>Detail</a></td>";
+            } elseif ($item->status_order == "Process") {
+                $return .= "<td> <a href='invoice-customer/$item->id' class='btn btn-sm btn-success' style='color:white'>Invoice</a>
+                    <a class='btn btn-sm btn-info' style='color:white'>Detail</a></td>";
+            }
+            $return .= "</td>
+            </tr>";
+            $no++;
+        }
+        return $return;
+    }
+
+    /**
+     * Menampilkan detail invoice untuk transaksi.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function invoice(Request $request)
+    {
+        $invoice = Transaksi::with('price')
+            ->where('invoice', $request->invoice)
+            ->orderBy('id','DESC')
+            ->get();
+
+        $dataInvoice = Transaksi::with('customers.users')
+            ->where('invoice', $request->invoice)
+            ->first();
+
+        return view('modul_admin.transaksi.invoice', compact('invoice', 'dataInvoice'));
+    }
+
+    /**
+     * Menampilkan form untuk membuat transaksi baru.
      *
      * @return \Illuminate\Http\Response
      */
@@ -99,7 +106,7 @@ class TransaksiController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan transaksi yang baru dibuat.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -110,7 +117,7 @@ class TransaksiController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Menampilkan transaksi berdasarkan id.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -121,7 +128,7 @@ class TransaksiController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Menampilkan form untuk mengedit transaksi berdasarkan id.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -132,7 +139,7 @@ class TransaksiController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mengupdate transaksi berdasarkan id.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -144,7 +151,7 @@ class TransaksiController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus transaksi berdasarkan id.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

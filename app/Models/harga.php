@@ -7,11 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class harga extends Model
 {
     protected $fillable = [
-        'user_id','jenis','kg','harga','status','harga','hari'
+        'jenis',
+        'kg',
+        'harga',
+        'status',
+        'hari'
     ];
 
-    public function transaksi()
-    {
-      return $this->hasMany(transaksi::class);
-    }
+    protected $casts = [
+        'harga' => 'float',  // atau 'integer' jika harga selalu integer
+    ];
 }

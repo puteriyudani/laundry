@@ -1,5 +1,5 @@
 @extends('layouts.backend')
-@section('title','Karyawan - Laporan Laundry')
+@section('title','Admin - Laporan Laundry')
 @section('content')
 <div class="col-lg-12">
     <div class="card">

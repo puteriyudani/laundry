@@ -1,5 +1,5 @@
 @extends('layouts.backend')
-@section('title','Karyawan - Invoice Customer')
+@section('title','Admin - Invoice Customer')
 @section('header','Invoice Customer')
 @section('content')
 <div class="col-md-12">

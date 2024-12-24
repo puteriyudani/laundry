@@ -1,5 +1,5 @@
 @extends('layouts.backend')
-@section('title','Karyawan - Data Customer')
+@section('title','Admin - Data Customer')
 @section('header','Data Customer')
 @section('content')
 @if ($message = Session::get('success'))

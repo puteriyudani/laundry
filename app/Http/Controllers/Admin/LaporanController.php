@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Karyawan;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,6 +13,6 @@ class LaporanController extends Controller
     public function laporan()
     {
       $laporan = transaksi::where('user_id', Auth::id())->whereIn('status_order',['Done','Delivery'])->get();
-      return view('karyawan.laporan.index', compact('laporan'));
+      return view('modul_admin.laporan.index', compact('laporan'));
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Karyawan;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -25,7 +25,7 @@ class InvoiceController extends Controller
         ->where('transaksis.user_id',Auth::user()->id)
         ->orderBy('id','DESC')->first();
 
-      return view('karyawan.laporan.invoice', compact('invoice','data'));
+      return view('modul_admin.laporan.invoice', compact('invoice','data'));
     }
 
     // Cetak invoice
@@ -44,7 +44,7 @@ class InvoiceController extends Controller
           ->where('transaksis.user_id',Auth::user()->id)
           ->orderBy('id','DESC')->first();
 
-      $pdf = PDF::loadView('karyawan.laporan.cetak', compact('invoice','data'))->setPaper('a4', 'landscape');
+      $pdf = PDF::loadView('modul_admin.laporan.cetak', compact('invoice','data'))->setPaper('a4', 'landscape');
       return $pdf->stream();
     }
 }

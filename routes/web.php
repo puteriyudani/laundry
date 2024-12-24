@@ -62,6 +62,30 @@ Route::middleware('auth')->group(function () {
     // Notifikasi
     Route::get('read-notification','Admin\AdminController@notif');
 
+    Route::resource('pelayanan','Admin\PelayananController');
+
+    // Transaksi
+    Route::get('add-order','Admin\PelayananController@addorders');
+    Route::get('ubah-status-order','Admin\PelayananController@ubahstatusorder');
+    Route::get('ubah-status-bayar','Admin\PelayananController@ubahstatusbayar');
+    Route::get('ubah-status-ambil','Admin\PelayananController@ubahstatusambil');
+
+    // Customer
+    Route::get('list-customer','Admin\PelayananController@listcs');
+    Route::get('list-customer-add','Admin\PelayananController@listcsadd');
+    Route::post('list-costomer-store','Admin\PelayananController@addcs');
+
+    // Filter
+    Route::get('listharga','Admin\PelayananController@listharga');
+    Route::get('listhari','Admin\PelayananController@listhari');
+
+    // Laporan
+    Route::get('laporan','Admin\LaporanController@laporan');
+
+    // Invoice
+    Route::get('invoice-kar/{id}','Admin\InvoiceController@invoicekar');
+    Route::get('cetak-invoice/{id}/print','Admin\InvoiceController@cetakinvoice');
+
     // Setting
     Route::get('settings','Admin\SettingsController@setting');
     Route::put('proses-setting-page/{id}','Admin\SettingsController@proses_set_page')->name('seting-page.update');
@@ -77,29 +101,6 @@ Route::middleware('auth')->group(function () {
 
   // Modul Karyawan
   Route::prefix('/')->middleware('role:Karyawan')->group(function () {
-    Route::resource('pelayanan','Karyawan\PelayananController');
-    // Transaksi
-    Route::get('add-order','Karyawan\PelayananController@addorders');
-    Route::get('ubah-status-order','Karyawan\PelayananController@ubahstatusorder');
-    Route::get('ubah-status-bayar','Karyawan\PelayananController@ubahstatusbayar');
-    Route::get('ubah-status-ambil','Karyawan\PelayananController@ubahstatusambil');
-
-    // Customer
-    Route::get('list-customer','Karyawan\PelayananController@listcs');
-    Route::get('list-customer-add','Karyawan\PelayananController@listcsadd');
-    Route::post('list-costomer-store','Karyawan\PelayananController@addcs');
-
-    // Filter
-    Route::get('listharga','Karyawan\PelayananController@listharga');
-    Route::get('listhari','Karyawan\PelayananController@listhari');
-
-    // Laporan
-    Route::get('laporan','Karyawan\LaporanController@laporan');
-
-    // Invoice
-    Route::get('invoice-kar/{id}','Karyawan\InvoiceController@invoicekar');
-    Route::get('cetak-invoice/{id}/print','Karyawan\InvoiceController@cetakinvoice');
-
     // Profile
     Route::get('profile-karyawan/{id}','Karyawan\ProfileController@karyawanProfile');
     Route::get('profile-karyawan/edit/{id}','Karyawan\ProfileController@karyawanProfileEdit');

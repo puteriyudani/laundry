@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Karyawan;
+namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -9,22 +9,22 @@ use Auth;
 use Session;
 class ProfileController extends Controller
 {
-    // Profile Karyawan Cabang
-    public function karyawanProfile($id)
+    // Profile Customer Cabang
+    public function customerProfile($id)
     {
       $user = User::find($id);
-      return view('karyawan.profile.index', compact('user'));
+      return view('customer.profile.index', compact('user'));
     }
 
-    // Profile Karyawan Cabang - Edit
-    public function karyawanProfileEdit(Request $request, $id)
+    // Profile Customer Cabang - Edit
+    public function customerProfileEdit(Request $request, $id)
     {
       $edit = User::find($id);
-      return view('karyawan.profile.edit', compact('edit'));
+      return view('customer.profile.edit', compact('edit'));
     }
 
-    // Profile Karyawan Cabang - Save
-    public function karyawanProfileSave(Request $request, $id)
+    // Profile Customer Cabang - Save
+    public function customerProfileSave(Request $request, $id)
     {
       $edit = User::FindorFail($id);
       $edit->id = $request->id;
@@ -39,10 +39,10 @@ class ProfileController extends Controller
 
       alert()->success('Update Data Berhasil');
       $id = $edit->id;
-      return redirect('profile-karyawan/' .$id.'');
+      return redirect('profile-customer/' .$id.'');
     }
 
-    // Change Password Karyawan
+    // Change Password Customer
     public function change_password(Request $request, $id)
     {
       $request->validate([

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddKaryawanRequest extends FormRequest
+class AddCustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +26,9 @@ class AddKaryawanRequest extends FormRequest
         return [
           'name'          => 'required|unique:users|max:50',
           'email'         => 'required|unique:users|max:50',
-          'nama_cabang'   => 'required|max:50',
           'alamat'        => 'required|max:50',
-          'alamat_cabang' => 'required|unique:users',
           'no_telp'       => 'required',
+          'kelamin'       => 'required',
         ];
     }
 
@@ -42,13 +41,10 @@ class AddKaryawanRequest extends FormRequest
         'email.required'        => 'Email tidak boleh kosong.',
         'email.unique'          => 'Email sudah digunakan.',
         'email.max'             => 'Email tidak boleh lebih dari 50 karakter.',
-        'nama_cabang.required'  => 'Nama Cabang tidak boleh kosong.',
-        'nama_cabang.max'       => 'Nama Cabang tidak boleh lebih dari 30 karakter.',
-        'alamat_cabang.required'=> 'Alamat Cabang tidak boleh ksosong.',
-        'alamt_cabang.unique'   => 'Alamat Cabang sudah digunakan',
         'alamat.required'       => 'Alamat tidak boleh kosong.',
         'alamat.max'            => 'Alamat tidak boleh lebih dari 50 karakter.',
-        'no_telp.required'      => 'Nomor Telepon tidak boleh kosong.'
+        'no_telp.required'      => 'Nomor Telepon tidak boleh kosong.',
+        'kelamin.required'      => 'Jenis Kelamin tidak boleh kosong.'
       ];
     }
 }

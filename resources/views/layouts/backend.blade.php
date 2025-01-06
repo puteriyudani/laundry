@@ -148,9 +148,6 @@
                     @if (auth::user()->auth == "Admin")
                         <li class=" nav-item"><a href="#"><i class="feather icon-users"></i><span class="menu-title" data-i18n="User">Data User</span></a>
                             <ul class="menu-content">
-                              <li class="nav-item {{ (request()->is('karyawan')) ? 'active' : '' }}">
-                                <a href="{{route('karyawan.index')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="View">Karyawan</span></a>
-                              </li>
                               <li class="nav-item {{ (request()->is('customer')) ? 'active' : '' }}">
                                 <a href="{{url('customer')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List">Customer</span></a>
                               </li>
@@ -164,9 +161,6 @@
                                 </li>
                                 <li class="nav-item {{ (request()->is('add-order')) ? 'active' : '' }}">
                                   <a href="{{url('add-order')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List">Tambah Order</span></a>
-                                </li>
-                                <li class="nav-item {{ (request()->is('list-customer')) ? 'active' : '' }}">
-                                  <a href="{{url('list-customer')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List">Data Customer</span></a>
                                 </li>
                             </ul>
                         </li>

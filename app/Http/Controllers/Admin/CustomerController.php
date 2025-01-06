@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\AddCustomerRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\customer;
+use Spatie\Permission\Models\Role;
+use App\Models\User;
+use Session;
+
 class CustomerController extends Controller
 {
     /**
@@ -14,8 +18,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-      $customer = customer::all();
-      return view('modul_admin.customer.index', compact('customer'));
+        $customer = User::where('auth', 'Customer')->get();
+        return view('modul_admin.pengguna.customer', compact('customer'));
     }
 
     /**
@@ -25,7 +29,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return view('modul_admin.pengguna.addcus');
     }
 
     /**
@@ -34,9 +38,23 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddCustomerRequest $request)
     {
-        //
+        $adduser = new User();
+        $adduser->name          = $request->name;
+        $adduser->email         = $request->email;
+        $adduser->alamat        = $request->alamat;
+        $adduser->no_telp       = $request->no_telp;
+        $adduser->kelamin       = $request->kelamin;
+        $adduser->status        = 'Active';
+        $adduser->auth          = 'Customer';
+        $adduser->password      = bcrypt('123456');
+        $adduser->save();
+
+        $adduser->assignRole($adduser->auth);
+
+        Session::flash('success', 'Tambah Customer Berhasil');
+        return redirect('customer');
     }
 
     /**
@@ -47,8 +65,7 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-      $customer = customer::with('transaksi')->where('id',$id)->first();
-      return view('modul_admin.customer.infoCustomer', compact('customer'));
+        //
     }
 
     /**
@@ -59,7 +76,8 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $edit = User::find($id);
+        return view('modul_admin.pengguna.editcus', compact('edit'));
     }
 
     /**
@@ -71,7 +89,13 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $adduser = User::find($id);
+        $adduser->status = $request->status;
+        $adduser->kelamin = $request->kelamin;
+        $adduser->save();
+
+        Session::flash('success', 'Update Customer Berhasil');
+        return redirect('customer');
     }
 
     /**
@@ -82,6 +106,13 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delete = User::find($id);
+        if ($delete->status == 'Active') {
+            Session::flash('error', 'Error, Status Customer masih aktif');
+        } else {
+            $delete->delete();
+            Session::flash('success', 'Hapus Customer Berhasil');
+        }
+        return redirect('customer');
     }
 }

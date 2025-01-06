@@ -18,7 +18,7 @@ class TransaksiController extends Controller
     {
         // Mengambil transaksi dengan relasi price tanpa melibatkan user_id
         $transaksi = Transaksi::with('price')
-            ->orderBy('created_at','desc')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return view('modul_admin.transaksi.index', compact('transaksi'));
@@ -32,48 +32,32 @@ class TransaksiController extends Controller
      */
     public function filtertransaksi(Request $request)
     {
-        // Menampilkan transaksi tanpa filter user_id, karena tidak ada lagi relasi dengan user_id
-        if ($request->user_id == 'all') {
-            $transaksi = Transaksi::with('price')
-                ->orderBy('created_at','desc')
-                ->get();
-        } else {
-            // Kondisi jika filter berdasarkan parameter lain selain user_id
-            $transaksi = Transaksi::with('price')
-                ->orderBy('created_at','desc')
-                ->get();
-        }
+        $transaksi = Transaksi::with('price')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         $return = "";
         $no = 1;
         foreach ($transaksi as $item) {
             $return .= "<tr>
-                <td>".$no."</td>
-                <td>".$item->tgl_transaksi."</td>
-                <td>".$item->customer."</td>
-                <td>".$item->status_order."</td>
-                <td>".$item->status_payment."</td>
-                <td>".$item->price->jenis."</td>";
+            <td>" . $no . "</td>
+            <td>" . $item->tgl_transaksi . "</td>
+            <td>" . $item->customer . "</td>
+            <td>" . $item->status_order . "</td>
+            <td>" . $item->status_payment . "</td>
+            <td>" . $item->price->jenis . "</td>";
             $return .= "
-                <input type='hidden' value='".$item->kg * $item->harga."'>
-                <td>".Rupiah::getRupiah($item->kg * $item->harga)."</td>
-            ";
-            if ($item->status_order == "Delivery") {
-                $return .= "<td><a href='invoice-customer/$item->id' class='btn btn-sm btn-success' style='color:white'>Invoice</a>
+            <input type='hidden' value='" . $item->kg * $item->harga . "'>
+            <td>" . Rupiah::getRupiah($item->kg * $item->harga) . "</td>
+        ";
+            $return .= "<td><a href='invoice-customer/$item->id' class='btn btn-sm btn-success' style='color:white'>Invoice</a>
                     <a class='btn btn-sm btn-info' style='color:white'>Detail</a></td>";
-            } elseif ($item->status_order == "Done") {
-                $return .= "<td> <a href='invoice-customer/$item->id' class='btn btn-sm btn-success' style='color:white'>Invoice</a>
-                    <a class='btn btn-sm btn-info' style='color:white'>Detail</a></td>";
-            } elseif ($item->status_order == "Process") {
-                $return .= "<td> <a href='invoice-customer/$item->id' class='btn btn-sm btn-success' style='color:white'>Invoice</a>
-                    <a class='btn btn-sm btn-info' style='color:white'>Detail</a></td>";
-            }
-            $return .= "</td>
-            </tr>";
+            $return .= "</tr>";
             $no++;
         }
         return $return;
     }
+
 
     /**
      * Menampilkan detail invoice untuk transaksi.
@@ -85,7 +69,7 @@ class TransaksiController extends Controller
     {
         $invoice = Transaksi::with('price')
             ->where('invoice', $request->invoice)
-            ->orderBy('id','DESC')
+            ->orderBy('id', 'DESC')
             ->get();
 
         $dataInvoice = Transaksi::with('customers.users')

@@ -1,6 +1,6 @@
 @extends('layouts.backend')
-@section('title','Admin - Data Karyawan')
-@section('header','Data Karyawan')
+@section('title','Admin - Data Customer')
+@section('header','Data Customer')
 @section('content')
 @if ($message = Session::get('success'))
   <div class="alert alert-success alert-block">
@@ -17,8 +17,8 @@
   <div class="col-lg-12">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title"> Data Karyawan / Cabang
-                <a href="{{route('karyawan.create')}}" class="btn btn-primary">Tambah</a>
+            <h4 class="card-title"> Data Customer
+                <a href="{{route('customer.create')}}" class="btn btn-primary">Tambah</a>
             </h4>
 
             <div class="table-responsive">
@@ -26,25 +26,31 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Nama Karyawan</th>
+                            <th>Nama Customer</th>
                             <th>Email</th>
-                            <th>Alamat Cabang</th>
-                            <th>Nama Cabang</th>
+                            <th>Alamat</th>
                             <th>No Telp</th>
+                            <th>Jenis Kelamin</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $no=1; ?>
-                        @foreach ($kry as $item)
+                        @foreach ($customer as $item)
                         <tr>
                             <td>{{$no}}</td>
                             <td>{{$item->name}}</td>
                             <td>{{$item->email}}</td>
-                            <td>{{$item->alamat_cabang}}</td>
-                            <td>{{$item->nama_cabang}}</td>
+                            <td>{{$item->alamat}}</td>
                             <td>{{$item->no_telp}}</td>
+                            <td>
+                                @if ($item->kelamin == 'Laki-laki')
+                                    <span class="label label-success">Laki-laki</span>
+                                @else
+                                    <span class="label label-info">Perempuan</span>
+                                @endif
+                            </td>
                             <td>
                                 @if ($item->status == 'Active')
                                     <span class="label label-success">Aktif</span>
@@ -53,10 +59,10 @@
                                 @endif
                             </td>
                             <td>
-                              <form action="{{ route('karyawan.destroy',$item->id) }}" method="POST">
+                              <form action="{{ route('customer.destroy',$item->id) }}" method="POST">
                                   @csrf
                                   @method('DELETE')
-                                  <a href="{{route('karyawan.edit', $item->id)}}" class="btn btn-sm btn-info">Edit</a>
+                                  <a href="{{route('customer.edit', $item->id)}}" class="btn btn-sm btn-info">Edit</a>
                                   <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                               </form>
                             </td>

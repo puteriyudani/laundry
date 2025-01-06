@@ -104,7 +104,7 @@ class HomeController extends Controller
                   ->  with('nov', $nov)
                   ->  with('dec', $dec);
 
-          } elseif(Auth::user()->auth === "Karyawan") {
+          } elseif(Auth::user()->auth === "Customer") {
               $masuk = transaksi::whereIN('status_order',['Process','Done','Delivery'])->where('user_id',auth::user()->id)->count();
               $selesai = transaksi::where('status_order','Deone')->where('user_id',auth::user()->id)->count();
               $diambil = transaksi::where('status_order','Delivery')->where('user_id',auth::user()->id)->count();

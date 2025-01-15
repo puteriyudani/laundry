@@ -30,6 +30,7 @@
                                     <th>Email</th>
                                     <th>Alamat</th>
                                     <th>No Telp</th>
+                                    <th>Kategori</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Action</th>
                                 </tr>
@@ -43,6 +44,13 @@
                                         <td>{{ $item->email }}</td>
                                         <td>{{ $item->alamat }}</td>
                                         <td>{{ $item->no_telp }}</td>
+                                        <td>
+                                            @if ($item->kategori == 'Cuci')
+                                                <span class="label label-success">Cuci</span>
+                                            @else
+                                                <span class="label label-info">Gosok</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             @if ($item->kelamin == 'Laki-laki')
                                                 <span class="label label-success">Laki-laki</span>

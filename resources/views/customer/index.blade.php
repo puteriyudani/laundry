@@ -1,22 +1,7 @@
 @extends('layouts.backend')
-@section('title', 'Dashboard Admin')
+@section('title', 'Dashboard Customer')
 @section('content')
     <div class="row">
-        <div class="col-lg-3 col-sm-6 col-12">
-            <div class="card">
-                <div class="card-header d-flex align-items-start pb-0">
-                    <div>
-                        <h2 class="text-bold-700 mb-0">{{ $customer->count() }}</h2>
-                        <p>Jumlah Customer</p>
-                    </div>
-                    <div class="avatar bg-rgba-primary p-50 m-0">
-                        <div class="avatar-content">
-                            <i class="feather icon-users text-primary font-medium-5"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="col-lg-3 col-sm-6 col-12">
             <div class="card">
                 <div class="card-header d-flex align-items-start pb-0">
@@ -98,7 +83,7 @@
         var $purple = '#df87f2';
         var $strok_color = '#b9c3cd';
 
-        // Bar data bulan
+        // Bar Data Bulan
         var salesavgChartoptions = {
             chart: {
                 height: 270,
@@ -191,9 +176,10 @@
         );
 
         salesavgChart.render();
-        // End Bar bulan
+        // End Bar Data Bulan
 
         // Bar Data Hari
+        // Bar
         var salesavgChartoptions = {
             chart: {
                 height: 270,
@@ -211,7 +197,7 @@
             },
             stroke: {
                 curve: 'smooth',
-                width: 4,
+                width: 2,
             },
             grid: {
                 borderColor: $label_color,
@@ -272,7 +258,7 @@
             },
             series: [{
                 name: "Laundry Masuk",
-                data: [{{ $_nilai }}],
+                data: [{{ $_nilai }}]
             }],
 
         }
@@ -283,6 +269,6 @@
         );
 
         salesavgChart.render();
-        // End Bar
+        // End Bar Data Hari
     </script>
 @endsection

@@ -28,6 +28,7 @@ class AddKaryawanRequest extends FormRequest
             'email'   => 'required|unique:karyawans|max:50|email',
             'alamat'  => 'required|max:50',
             'no_telp' => 'required',
+            'kategori' => 'required|in:Cuci,Gosok',
             'kelamin' => 'required|in:Laki-laki,Perempuan',
         ];
     }
@@ -44,6 +45,7 @@ class AddKaryawanRequest extends FormRequest
             'alamat.required'       => 'Alamat tidak boleh kosong.',
             'alamat.max'            => 'Alamat tidak boleh lebih dari 50 karakter.',
             'no_telp.required'      => 'Nomor Telepon tidak boleh kosong.',
+            'kategori.required'      => 'Kategori tidak boleh kosong.',
             'kelamin.required'      => 'Jenis Kelamin tidak boleh kosong.'
         ];
     }

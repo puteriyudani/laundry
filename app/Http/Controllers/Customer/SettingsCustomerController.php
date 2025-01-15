@@ -8,16 +8,16 @@ use App\Models\User;
 use Auth;
 use Session;
 
-class SettingsController extends Controller
+class SettingsCustomerController extends Controller
 {
-    //Setting Karyawan
+    //Setting Customer
     public function setting()
     {
-      return view('karyawan.settings.index');
+      return view('customer.settings.index');
     }
 
     // Proses setting
-    public function proses_setting_karyawan(Request $request, $id)
+    public function proses_setting_customer(Request $request, $id)
     {
        $setting = User::findOrFail($id);
         if ($request->theme == NULL) {

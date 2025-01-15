@@ -29,6 +29,7 @@ class KaryawanController extends Controller
             'email'   => $request->email,
             'alamat'  => $request->alamat,
             'no_telp' => $request->no_telp,
+            'kategori' => $request->kategori,
             'kelamin' => $request->kelamin,
         ]);
 
@@ -49,6 +50,7 @@ class KaryawanController extends Controller
         $addkaryawan->email = $request->email;
         $addkaryawan->alamat = $request->alamat;
         $addkaryawan->no_telp = $request->no_telp;
+        $addkaryawan->kategori = $request->kategori;
         $addkaryawan->kelamin = $request->kelamin;
         $addkaryawan->save();
 

@@ -19,6 +19,7 @@ class CreateKaryawansTable extends Migration
             $table->string('email', 50)->unique();
             $table->string('alamat', 50);
             $table->string('no_telp', 20);
+            $table->enum('kategori', ['Cuci', 'Gosok']);
             $table->enum('kelamin', ['Laki-laki', 'Perempuan']);
             $table->timestamps();
         });

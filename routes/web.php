@@ -108,7 +108,7 @@ Route::middleware('auth')->group(function () {
         Route::put('change-password/{id}', 'Customer\ProfileController@change_password')->name('change.password');
 
         // Setting
-        Route::get('customer/setting', 'Customer\SettingsController@setting');
-        Route::put('proses-setting-customer/{id}', 'Customer\SettingsController@proses_setting_customer')->name('proses-setting-customer.update');
+        Route::get('customer/setting', 'Customer\SettingsCustomerController@setting');
+        Route::put('proses-setting-customer/{id}', 'Customer\SettingsCustomerController@proses_setting_customer')->name('proses-setting-customer.update');
     });
 });

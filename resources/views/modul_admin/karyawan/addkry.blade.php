@@ -77,6 +77,28 @@
                                 </div>
                                 <div class="col-lg-4 col-xl-4 col-12">
                                     <div class="form-group">
+                                        <label for="kategori">Kategori</label>
+                                        <div class="position-relative">
+                                            <select name="kelamin" id="kategori"
+                                                class="form-control @error('kelamin') is-invalid @enderror">
+                                                <option value="" disabled selected>Pilih Kategori</option>
+                                                <option value="Cuci"
+                                                    {{ old('kelamin') == 'Cuci' ? 'selected' : '' }}>Cuci
+                                                </option>
+                                                <option value="Gosok"
+                                                    {{ old('kelamin') == 'Gosok' ? 'selected' : '' }}>Gosok
+                                                </option>
+                                            </select>
+                                            @error('kelamin')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-xl-4 col-12">
+                                    <div class="form-group">
                                         <label for="jenis-kelamin">Jenis Kelamin</label>
                                         <div class="position-relative">
                                             <select name="kelamin" id="jenis-kelamin"

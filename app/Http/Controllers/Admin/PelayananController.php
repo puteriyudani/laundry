@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{transaksi, customer, harga};
+use App\Models\{transaksi, customer, harga, User};
 use Auth;
 use PDF;
 use Mail;
@@ -116,7 +116,7 @@ class PelayananController extends Controller
     public function addorders()
     {
         // Ambil data customer dan harga aktif
-        $customer = customer::all();
+        $customer = User::where('auth', 'Customer')->get();
         $harga = harga::where('status', 1)->get();
 
         // Nomor Form otomatis
@@ -127,7 +127,7 @@ class PelayananController extends Controller
 
         // Periksa apakah ada harga aktif
         $cek_harga = harga::where('status', 1)->first();
-        $cek_customer = customer::count();
+        $cek_customer = User::where('auth', 'Customer')->count();
 
         // Kirimkan nilai harga jika ditemukan, atau 0 jika tidak ada harga aktif
         $harga_value = $cek_harga ? $cek_harga->harga : 0;

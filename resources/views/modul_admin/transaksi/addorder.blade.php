@@ -5,9 +5,7 @@
         <!-- Tampilkan form jika harga aktif -->
         <div class="card card-outline-info">
             <div class="card-header">
-                <h4 class="card-title">Form Tambah Data Order
-                    <a href="{{ url('list-customer-add') }}" class="btn btn-danger">+ Customer Baru</a>
-                </h4>
+                <h4 class="card-title">Form Tambah Data Order</h4>
             </div>
             <div class="card-body">
                 @if ($cek_customer != 0)
@@ -23,7 +21,7 @@
                                             required>
                                             <option value="">-- Pilih Customer --</option>
                                             @foreach ($customer as $customers)
-                                                <option value="{{ $customers->id }}">{{ $customers->nama }}</option>
+                                                <option value="{{ $customers->id }}">{{ $customers->name }}</option>
                                             @endforeach
                                         </select>
                                         @error('customer_id')

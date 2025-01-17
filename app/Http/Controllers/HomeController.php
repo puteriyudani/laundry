@@ -150,6 +150,7 @@ class HomeController extends Controller
                 $dec = transaksi::where('tahun', Carbon::now()->format('Y'))->where('bulan', 12)->where('user_id', auth::user()->id)->count();
 
                 return view('customer.index')
+                    ->with('masuk', $masuk)
                     ->with('diambil', $diambil)
                     ->with('selesai', $selesai)
                     ->with('sudahbayar', $sudahbayar)

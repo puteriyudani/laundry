@@ -117,10 +117,10 @@
                                     </a>
                                 @else
                                     <a class="dropdown-item"
-                                        href="{{ url('profile-karyawan', auth::user()->id) }}"><i
+                                        href="{{ url('profile-customer', auth::user()->id) }}"><i
                                             class="feather icon-user"></i>Profile
                                     </a>
-                                    <a class="dropdown-item" href="{{ url('karyawan/setting') }}"><i
+                                    <a class="dropdown-item" href="{{ url('customer/setting') }}"><i
                                             class="feather icon-settings"></i>Settings
                                     </a>
                                 @endif
@@ -242,8 +242,8 @@
                     </li>
                     {{-- End Menu Admin --}}
 
-                    {{-- Menu Karyawan --}}
-                @elseif(auth::user()->auth == 'Karyawan')
+                    {{-- Menu Customer --}}
+                @elseif(auth::user()->auth == 'Customer')
                     <li class="nav-item"><a href="{{ url('/') }}" target="_blank"><i
                                 class="feather icon-square"></i><span class="menu-title"
                                 data-i18n="Dashboard">Frontend</span></a>

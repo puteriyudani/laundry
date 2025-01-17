@@ -15,7 +15,7 @@
                     <div class="m-t-30"> <img src="{{asset('backend/images/profile/user.jpg')}}" class="rounded" width="230" />
                         <h4 class="card-title m-t-10">{{$user->name}}
                         </h4>
-                        <h6 class="card-subtitle">Karyawan</h6>
+                        <h6 class="card-subtitle">Customer</h6>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                 <button class="btn btn-circle btn-secondary"><i class="fa fa-youtube"></i></button>
 
                 <div class="d-flex justify-content-between">
-              <a href="{{url('profile-karyawan/edit', Auth::user()->id)}}" class="btn btn-primary mt-2">Edit</a>
+              <a href="{{url('profile-customer/edit', Auth::user()->id)}}" class="btn btn-primary mt-2">Edit</a>
               <a href="" data-toggle="modal" data-target="#change_password" class="btn btn-warning mt-2">Change Password</a>
             </div>
             </div>
@@ -57,5 +57,5 @@
         </div>
     </div>
 </div>
-@include('karyawan.profile.modal')
+@include('customer.profile.modal')
 @endsection

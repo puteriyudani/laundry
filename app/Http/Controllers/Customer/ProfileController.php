@@ -32,8 +32,7 @@ class ProfileController extends Controller
       $edit->email = $request->email;
       $edit->alamat = $request->alamat;
       $edit->no_telp = $request->no_telp;
-      $edit->nama_cabang = $request->nama_cabang;
-      $edit->alamat_cabang = $request->alamat_cabang;
+      $edit->kelamin = $request->kelamin;
       $edit->save();
 
 

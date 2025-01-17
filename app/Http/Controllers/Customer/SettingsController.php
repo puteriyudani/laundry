@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Karyawan;
+namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -8,7 +8,7 @@ use App\Models\User;
 use Auth;
 use Session;
 
-class SettingsCustomerController extends Controller
+class SettingsController extends Controller
 {
     //Setting Customer
     public function setting()

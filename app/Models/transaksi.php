@@ -39,6 +39,6 @@ class transaksi extends Model
     // Relasi ke model Customer
     public function customers()
     {
-        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+        return $this->belongsTo(User::class, 'customer_id', 'id');
     }
 }

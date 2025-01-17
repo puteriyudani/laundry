@@ -120,7 +120,7 @@
                                         href="{{ url('profile-customer', auth::user()->id) }}"><i
                                             class="feather icon-user"></i>Profile
                                     </a>
-                                    <a class="dropdown-item" href="{{ url('customer/setting') }}"><i
+                                    <a class="dropdown-item" href="{{ url('setting-customer') }}"><i
                                             class="feather icon-settings"></i>Settings
                                     </a>
                                 @endif

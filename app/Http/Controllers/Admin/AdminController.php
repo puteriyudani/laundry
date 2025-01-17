@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{User, customer, transaksi, harga, LaundrySetting};
+use App\Models\{User, transaksi, harga, LaundrySetting};
 use Auth;
 use Rupiah;
 use DB;
@@ -55,23 +55,31 @@ class AdminController extends Controller
     // Proses edit harga
     public function hargaedit(Request $request)
     {
-        $editharga = harga::find($request->id_harga);
-        $editharga->update([
+        $request->validate([
+            'id_harga' => 'required|exists:hargas,id', // Pastikan id valid
+            'jenis' => 'required',
+            'harga' => 'required|numeric',
+            'hari' => 'required|numeric',
+            'status' => 'required|in:0,1',
+        ]);
+
+        $harga = harga::findOrFail($request->id_harga);
+        $harga->update([
             'jenis' => $request->jenis,
-            'kg'    => $request->kg,
+            'kg' => $request->kg,
             'harga' => $request->harga,
-            'hari'  => $request->hari,
+            'hari' => $request->hari,
             'status' => $request->status,
         ]);
 
         Session::flash('success', 'Edit Data Harga Berhasil');
-        return $editharga;
+        return redirect('data-harga');
     }
 
     // Laporan
     public function jmlTransaksi(Request $request)
     {
-        $jml = customer::select(DB::raw('t.id, t.nama, t.alamat, t.kelamin, t.no_telp, a.kg'))
+        $jml = User::where('auth', 'Customer')->select(DB::raw('t.id, t.nama, t.alamat, t.kelamin, t.no_telp, a.kg'))
             ->from(DB::raw('(SELECT * from customers order by created_at DESC) t'))
             ->leftJoin('transaksis as a', 'a.customer_id', '=', 't.id')
             ->groupBy('t.id')

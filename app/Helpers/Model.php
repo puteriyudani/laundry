@@ -1,69 +1,56 @@
 <?php
-use App\Models\{customer,notifications_setting};
 
-class Rupiah {
-    public static function getRupiah($value) {
-        $format = "Rp " . number_format($value,2,',','.');
-        return $format;
+use App\Models\{User, notifications_setting};
+
+class Rupiah
+{
+    public static function getRupiah($value)
+    {
+        return "Rp " . number_format($value, 2, ',', '.');
     }
 }
 
 // Get Email Customer by id
-if (! function_exists('email_customer'))
-{
-    function email_customer($id=0)
+if (! function_exists('email_customer')) {
+    function email_customer($id = 0)
     {
-      $model = new customer;
-      $data  = $model::where('id',$id)->first();
-      $email_customer = !empty($data) ? $data->email_customer : 'Not Found';
-      return $email_customer;
+        $data = User::where('auth', 'Customer')->where('id', $id)->first();
+        return !empty($data) ? $data->email : 'Not Found';
     }
 }
 
 // Get Nama Customer by id
-if (! function_exists('namaCustomer'))
-{
-    function namaCustomer($id=0)
+if (! function_exists('namaCustomer')) {
+    function namaCustomer($id = 0)
     {
-        $model = new customer;
-        $data  = $model::where('id',$id)->first();
-        $name = !empty($data) ? $data->nama : 'Not Found';
-        return $name;
+        $data = User::where('auth', 'Customer')->where('id', $id)->first();
+        return !empty($data) ? $data->name : 'Not Found';
     }
 }
 
 // Setting Email Notifications
-if (! function_exists('setNotificationEmail'))
-{
-    function setNotificationEmail($id='')
+if (! function_exists('setNotificationEmail')) {
+    function setNotificationEmail($id = '')
     {
-        $model = new notifications_setting;
-        $data  = $model::where('email',$id)->first();
-        $email = $data ? $data->email : 'Email Notification Aktif Tidak';
-        return $email;
+        $data = notifications_setting::where('email', $id)->first();
+        return $data ? $data->email : 'Email Notification Aktif Tidak';
     }
 }
 
 // Setting Telegram Order Masuk Notifications
-if (! function_exists('setNotificationTelegramIn'))
-{
-    function setNotificationTelegramIn($id='')
+if (! function_exists('setNotificationTelegramIn')) {
+    function setNotificationTelegramIn($id = '')
     {
-        $model = new notifications_setting;
-        $data  = $model::where('telegram_order_masuk',$id)->first();
-        $teleIn = $data ? $data->telegram_order_masuk : 'Telegram Notification Order Masuk Tidak Aktif';
-        return $teleIn;
+        $data = notifications_setting::where('telegram_order_masuk', $id)->first();
+        return $data ? $data->telegram_order_masuk : 'Telegram Notification Order Masuk Tidak Aktif';
     }
 }
 
 // Setting Telegram Order Selesai Notifications
-if (! function_exists('setNotificationTelegramFinish'))
-{
-    function setNotificationTelegramFinish($id='')
+if (! function_exists('setNotificationTelegramFinish')) {
+    function setNotificationTelegramFinish($id = '')
     {
-        $model = new notifications_setting;
-        $data  = $model::where('telegram_order_selesai',$id)->first();
-        $teleFininsh = $data ? $data->telegram_order_selesai : 'Telegram Notification Order Selesai Tidak Aktif';
-        return $teleFininsh;
+        $data = notifications_setting::where('telegram_order_selesai', $id)->first();
+        return $data ? $data->telegram_order_selesai : 'Telegram Notification Order Selesai Tidak Aktif';
     }
 }

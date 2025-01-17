@@ -143,12 +143,12 @@
             const harga = $(this).data('id-harga');
             const status = $(this).data('id-status');
 
-            $("#id_harga").val(id);
-            $("#jenis").val(jenis);
-            $("#kg").val(kg);
-            $("#hari").val(hari);
-            $("#harga").val(harga);
-            $("#status").val(status);
+            $('#id_harga').val(id);
+            $('#jenis').val(jenis.trim());
+            $('#kg').val(kg);
+            $('#hari').val(hari);
+            $('#harga').val(harga);
+            $('#status').val(status);
         });
 
         $(document).ready(function() {

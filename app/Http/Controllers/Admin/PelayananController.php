@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{transaksi, customer, harga, User};
+use App\Models\{transaksi, harga, User};
 use Auth;
 use PDF;
 use Mail;
@@ -109,7 +109,7 @@ class PelayananController extends Controller
 
     public function listcs()
     {
-        $customer = customer::orderBy('id', 'DESC')->get(); // Menghapus user_id pada query
+        $customer = User::where('auth', 'Customer')->orderBy('id', 'DESC')->get(); // Menghapus user_id pada query
         return view('modul_admin.transaksi.customer', compact('customer'));
     }
 
@@ -184,26 +184,28 @@ class PelayananController extends Controller
     }
 
     // Proses Tambah Customer
+    // Tambah Customer
     public function addcs(Request $request)
     {
         $request->validate([
-            'nama'                => 'required|unique:customers|max:25',
-            'email_customer'      => 'required|unique:customers',
-            'alamat'              => 'required',
-            'kelamin'             => 'required',
-            'no_telp'             => 'required|unique:customers',
+            'nama'           => 'required|unique:customers|max:25',
+            'email_customer' => 'required|unique:customers',
+            'alamat'         => 'required',
+            'kelamin'        => 'required',
+            'no_telp'        => 'required|unique:customers',
         ]);
 
-        $addplg = new customer();
+        // Buat instance baru dari User
+        $addplg = new User();
+        $addplg->auth = 'Customer'; // Tetapkan auth sebagai 'Customer'
         $addplg->nama = $request->nama;
-        $addplg->email_customer = $request->email_customer;
+        $addplg->email = $request->email_customer; // Gunakan kolom email (bukan email_customer) sesuai konvensi Laravel
         $addplg->alamat = $request->alamat;
         $addplg->kelamin = $request->kelamin;
         $addplg->no_telp = $request->no_telp;
-        $addplg->save(); // Menghapus user_id
+        $addplg->save();
 
         Session::flash('success', 'Customer Berhasil Ditambah !');
-
         return redirect('list-customer');
     }
 

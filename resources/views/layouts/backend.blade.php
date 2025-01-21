@@ -240,6 +240,10 @@
 
                     {{-- Menu Customer --}}
                 @elseif(auth::user()->auth == 'Customer')
+                    <li class="nav-item">
+                        <a href="#"><i class="feather icon-package"></i><span class="menu-item"
+                                data-i18n="List">Paket</span></a>
+                    </li>
                     <li class=" nav-item"><a href="#"><i class="feather icon-layers"></i><span
                                 class="menu-title" data-i18n="User">Data Transaksi</span></a>
                         <ul class="menu-content">
@@ -253,6 +257,10 @@
                                         class="menu-item" data-i18n="List">Tambah Order</span></a>
                             </li>
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#"><i class="feather icon-gift"></i><span class="menu-item"
+                                data-i18n="List">Gift</span></a>
                     </li>
                 @endif
                 {{-- End  --}}
@@ -284,7 +292,8 @@
     <footer class="footer footer-static footer-light">
         <p class="clearfix blue-grey lighten-2 mb-0"><span
                 class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2020<a
-                    class="text-bold-800 grey darken-2" href="https://www.instagram.com/pt.imagi/" target="_blank">IMAGI,</a>All rights
+                    class="text-bold-800 grey darken-2" href="https://www.instagram.com/pt.imagi/"
+                    target="_blank">IMAGI,</a>All rights
                 Reserved</span><span class="float-md-right d-none d-md-block">Build With <i
                     class="feather icon-heart pink"></i></span>
             <button class="btn btn-primary btn-icon scroll-top" type="button"><i

@@ -152,7 +152,7 @@
             <ul class="nav navbar-nav flex-row">
                 <li class="nav-item mr-auto"><a class="navbar-brand" href="{{ url('home') }}">
                         <div class="brand-logo"></div>
-                        <h2 class="brand-text mb-0">Laundry</h2>
+                        <h2 class="brand-text mb-0">Ruang Laundry</h2>
                     </a></li>
                 <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i
                             class="feather icon-x d-block d-xl-none font-medium-4 primary toggle-icon"></i><i
@@ -168,7 +168,7 @@
                             data-i18n="Dashboard">Dashboard</span></a>
                 </li>
 
-                {{-- Menu Admin --}}
+                {{-- Menu --}}
                 @if (auth::user()->auth == 'Admin')
                     <li class=" nav-item"><a href="#"><i class="feather icon-users"></i><span
                                 class="menu-title" data-i18n="User">Data User</span></a>
@@ -190,10 +190,6 @@
                             <li class="nav-item {{ request()->is('pelayanan') ? 'active' : '' }}">
                                 <a href="{{ route('pelayanan.index') }}"><i class="feather icon-circle"></i><span
                                         class="menu-item" data-i18n="List">Order Masuk</span></a>
-                            </li>
-                            <li class="nav-item {{ request()->is('add-order') ? 'active' : '' }}">
-                                <a href="{{ url('add-order') }}"><i class="feather icon-circle"></i><span
-                                        class="menu-item" data-i18n="List">Tambah Order</span></a>
                             </li>
                         </ul>
                     </li>
@@ -244,9 +240,19 @@
 
                     {{-- Menu Customer --}}
                 @elseif(auth::user()->auth == 'Customer')
-                    <li class="nav-item"><a href="{{ url('/') }}" target="_blank"><i
-                                class="feather icon-square"></i><span class="menu-title"
-                                data-i18n="Dashboard">Frontend</span></a>
+                    <li class=" nav-item"><a href="#"><i class="feather icon-layers"></i><span
+                                class="menu-title" data-i18n="User">Data Transaksi</span></a>
+                        <ul class="menu-content">
+                            <li class="nav-item {{ request()->is('transaksi-customer') ? 'active' : '' }}">
+                                <a href="{{ route('transaksi-customer.index') }}"><i
+                                        class="feather icon-circle"></i><span class="menu-item"
+                                        data-i18n="List">Transaksi</span></a>
+                            </li>
+                            <li class="nav-item {{ request()->is('add-order') ? 'active' : '' }}">
+                                <a href="{{ url('add-order') }}"><i class="feather icon-circle"></i><span
+                                        class="menu-item" data-i18n="List">Tambah Order</span></a>
+                            </li>
+                        </ul>
                     </li>
                 @endif
                 {{-- End  --}}
@@ -278,7 +284,7 @@
     <footer class="footer footer-static footer-light">
         <p class="clearfix blue-grey lighten-2 mb-0"><span
                 class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2020<a
-                    class="text-bold-800 grey darken-2" href="#" target="_blank">IMAGI,</a>All rights
+                    class="text-bold-800 grey darken-2" href="https://www.instagram.com/pt.imagi/" target="_blank">IMAGI,</a>All rights
                 Reserved</span><span class="float-md-right d-none d-md-block">Build With <i
                     class="feather icon-heart pink"></i></span>
             <button class="btn btn-primary btn-icon scroll-top" type="button"><i

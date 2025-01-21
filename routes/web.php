@@ -65,7 +65,6 @@ Route::middleware('auth')->group(function () {
         Route::resource('pelayanan', 'Admin\PelayananController');
 
         // Transaksi
-        Route::get('add-order', 'Admin\PelayananController@addorders');
         Route::get('ubah-status-order', 'Admin\PelayananController@ubahstatusorder');
         Route::get('ubah-status-bayar', 'Admin\PelayananController@ubahstatusbayar');
         Route::get('ubah-status-ambil', 'Admin\PelayananController@ubahstatusambil');
@@ -74,10 +73,6 @@ Route::middleware('auth')->group(function () {
         Route::get('list-customer', 'Admin\PelayananController@listcs');
         Route::get('list-customer-add', 'Admin\PelayananController@listcsadd');
         Route::post('list-costomer-store', 'Admin\PelayananController@addcs');
-
-        // Filter
-        Route::get('listharga', 'Admin\PelayananController@listharga');
-        Route::get('listhari', 'Admin\PelayananController@listhari');
 
         // Laporan
         Route::get('laporan', 'Admin\LaporanController@laporan');
@@ -106,6 +101,14 @@ Route::middleware('auth')->group(function () {
         Route::get('profile-customer/edit/{id}', 'Customer\ProfileController@customerProfileEdit');
         Route::put('profile-customer/update/{id}', 'Customer\ProfileController@customerProfileSave');
         Route::put('change-password/{id}', 'Customer\ProfileController@change_password')->name('change.password');
+
+        // Transaksi
+        Route::resource('transaksi-customer', 'Customer\TransaksiController');
+        Route::get('add-order', 'Customer\TransaksiController@addorders');
+
+        // Filter
+        Route::get('listharga', 'Customer\TransaksiController@listharga');
+        Route::get('listhari', 'Customer\TransaksiController@listhari');
 
         // Setting
         Route::get('setting-customer', 'Customer\SettingsController@setting');

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class harga extends Model
+class Harga extends Model
 {
     protected $fillable = [
         'jenis',

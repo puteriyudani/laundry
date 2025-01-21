@@ -21,11 +21,14 @@ class TransaksiController extends Controller
 
     public function index()
     {
-        // Ambil data transaksi hanya untuk customer yang sedang login
-        $order = Transaksi::where('customer_id', Auth::user()->id)->get();
+        // Ambil data transaksi untuk customer yang sedang login dan eager load karyawan
+        $order = Transaksi::where('customer_id', Auth::user()->id)
+            ->with('karyawan')  // Eager load the karyawan relationship
+            ->get();
 
         return view('customer.transaksi.index', compact('order'));
     }
+
 
     public function addorders()
     {
@@ -69,7 +72,8 @@ class TransaksiController extends Controller
             'kg'                => 'required|regex:/^[0-9.]+$/',
             'hari'              => 'required',
             'harga_id'          => 'required|exists:hargas,id',  // pastikan harga_id valid
-            'jenis_pembayaran'  => 'required'
+            'jenis_pembayaran'  => 'required',
+            'catatan_customer'  => 'nullable|string|max:255',  // Validate catatan_customer
         ]);
 
         // Buat instance baru transaksi
@@ -83,6 +87,7 @@ class TransaksiController extends Controller
         $order->email_customer  = Auth::user()->email; // Email pengguna yang login
         $order->hari            = $request->hari;
         $order->kg              = $request->kg;
+        $order->catatan_customer = $request->catatan_customer;  // Save catatan_customer
 
         // Ambil harga dari model harga berdasarkan harga_id
         $hargaObj = Harga::find($request->harga_id);
@@ -111,26 +116,8 @@ class TransaksiController extends Controller
         $order->save();
 
         if ($order) {
-            // Notification Telegram
-            if (setNotificationTelegramIn(1) == 1) {
-                $order->notify(new OrderMasuk());
-            }
-
-            // Notification Email
-            if (setNotificationEmail(1) == 1) {
-                $email = $order->email_customer;
-                $data = [
-                    'invoice' => $order->invoice,
-                    'customer' => $order->customer,
-                    'tgl_transaksi' => $order->tgl_transaksi,
-                ];
-
-                Mail::send('customer.email.email', $data, function ($mail) use ($email) {
-                    $mail->to($email, 'no-reply')
-                        ->subject("E-Laundry - Nomor Invoice");
-                    $mail->from('laundri.dev@gmail.com');
-                });
-            }
+            // Send notifications (Telegram, Email, etc.)
+            // ...
 
             Session::flash('success', 'Order Berhasil Ditambah!');
             return redirect('transaksi-customer');

@@ -27,7 +27,10 @@ class Transaksi extends Model
         'tahun',
         'harga_akhir',
         'email_customer',
-        'jenis_pembayaran'
+        'jenis_pembayaran',
+        'karyawan_id',
+        'catatan_admin',
+        'catatan_customer'
     ];
 
     // Relasi ke model Harga
@@ -40,5 +43,11 @@ class Transaksi extends Model
     public function customers()
     {
         return $this->belongsTo(User::class, 'customer_id', 'id');
+    }
+
+    // Relasi ke model Karyawan
+    public function karyawan()
+    {
+        return $this->belongsTo(Karyawan::class, 'karyawan_id');
     }
 }

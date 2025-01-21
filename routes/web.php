@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
         Route::get('ubah-status-order', 'Admin\PelayananController@ubahstatusorder');
         Route::get('ubah-status-bayar', 'Admin\PelayananController@ubahstatusbayar');
         Route::get('ubah-status-ambil', 'Admin\PelayananController@ubahstatusambil');
+        Route::post('update-karyawan-catatan', 'Admin\PelayananController@updateKaryawanAndCatatan');
 
         // Customer
         Route::get('list-customer', 'Admin\PelayananController@listcs');

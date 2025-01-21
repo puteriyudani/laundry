@@ -50,6 +50,19 @@
                                     @enderror
                                 </div>
                             </div>
+
+                            <!-- Catatan -->
+                            <div class="col-md-3">
+                                <div class="form-group has-success">
+                                    <label class="control-label">Catatan</label>
+                                    <textarea name="catatan_customer" id="catatan_customer" class="form-control" rows="3" required>{{ old('catatan_customer') }}</textarea>
+                                    @error('catatan_customer')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Jenis Pembayaran dan Pilih Paket -->

@@ -14,9 +14,6 @@
     @endif
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">
-                <a href="{{ url('add-order') }}" class="btn btn-primary">Tambah</a>
-            </h4>
             <h6>Info : <code> Untuk Mengubah Status Order & Pembayaran Klik Pada Bagian 'Action' Masing-masing.</code></h6>
             <div class="table-responsive m-t-0">
                 <table id="myTable" class="table display table-bordered table-striped">
@@ -26,11 +23,15 @@
                             <th>No Resi</th>
                             <th>TGL Transaksi</th>
                             <th>Customer</th>
+                            <th>Karyawan</th>
                             <th>Status Order</th>
                             <th>Status Payment</th>
                             <th>Jenis Laundri</th>
                             <th>Total</th>
+                            <th>Catatan Admin</th>
+                            <th>Catatan Customer</th>
                             <th>Action</th>
+                            <th>Edit</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,6 +43,7 @@
                                 <td style="font-weight:bold; font-color:black">{{ $item->invoice }}</td>
                                 <td>{{ carbon\carbon::parse($item->tgl_transaksi)->format('d-m-y') }}</td>
                                 <td>{{ $item->customer }}</td>
+                                <td>{{ $item->karyawan ? $item->karyawan->name : 'Karyawan Tidak Tersedia' }}</td>
                                 <td>
                                     @if ($item->status_order == 'Done')
                                         <span class="label label-success">Selesai</span>
@@ -63,6 +65,8 @@
                                 <td>
                                     {{ Rupiah::getRupiah($item->harga_akhir) }}
                                 </td>
+                                <td>{{ $item->catatan_admin }}</td>
+                                <td>{{ $item->catatan_customer }}</td>
                                 <td>
                                     @if ($item->status_payment == 'Pending')
                                         <a class="btn btn-sm btn-danger" data-toggle="modal"
@@ -89,12 +93,57 @@
                                         @endif
                                     @endif
                                 </td>
+                                <td>
+                                    <a class="btn btn-sm btn-warning" data-toggle="modal" data-id="{{ $item->id }}"
+                                        data-karyawan-id="{{ $item->karyawan_id }}"
+                                        data-catatan="{{ $item->catatan_admin }}" data-target="#editModal">Edit</a>
+                                </td>
+
                             </tr>
                             <?php $no++; ?>
                         @endforeach
                     </tbody>
                 </table>
+
             </div>
+
+            <!-- Modal to Edit Karyawan and Catatan -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form action="{{ url('update-karyawan-catatan') }}" method="POST">
+                            @csrf
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">Edit Karyawan & Catatan</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" id="transaksi_id" name="transaksi_id">
+                                <div class="form-group">
+                                    <label for="karyawan_id">Nama Karyawan</label>
+                                    <select class="form-control" id="karyawan_id" name="karyawan_id">
+                                        @foreach ($karyawans as $karyawan)
+                                            <option value="{{ $karyawan->id }}">{{ $karyawan->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="catatan_admin">Catatan Admin</label>
+                                    <textarea class="form-control" id="catatan_admin" name="catatan_admin"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
             @include('modul_admin.transaksi.statusorder')
             @include('modul_admin.transaksi.statusbayar')
         </div>
@@ -205,6 +254,17 @@
                     }
                 });
             });
+        });
+
+        // Edit Karyawan dan Catatan
+        $(document).on('click', '[data-target="#editModal"]', function() {
+            var transaksi_id = $(this).data('id');
+            var karyawan_id = $(this).data('karyawan-id');
+            var catatan = $(this).data('catatan');
+
+            $('#transaksi_id').val(transaksi_id);
+            $('#karyawan_id').val(karyawan_id);
+            $('#catatan_admin').val(catatan);
         });
     </script>
 @endsection

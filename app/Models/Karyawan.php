@@ -18,4 +18,9 @@ class Karyawan extends Model
         'no_telp',
         'kelamin',
     ];
+
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class, 'karyawan_id');
+    }
 }

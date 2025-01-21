@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Transaksi, User};
+use App\Models\{Karyawan, Transaksi, User};
 use Mail;
 use carbon\carbon;
 use Session;
@@ -15,8 +15,9 @@ class PelayananController extends Controller
 {
     public function index()
     {
-        $order = Transaksi::with('price')->orderBy('id', 'DESC')->get();
-        return view('modul_admin.transaksi.order', compact('order'));
+        $order = Transaksi::with(['price', 'karyawan'])->orderBy('id', 'DESC')->get();
+        $karyawans = Karyawan::all(); // Assuming the Karyawan model is set up
+        return view('modul_admin.transaksi.order', compact('order', 'karyawans'));
     }
 
     public function listcs()
@@ -134,5 +135,23 @@ class PelayananController extends Controller
             }
             Session::flash('success', 'Status Laundry Berhasi Diubah !');
         }
+    }
+
+    public function updateKaryawanAndCatatan(Request $request)
+    {
+        $request->validate([
+            'transaksi_id' => 'required|exists:transaksis,id',
+            'karyawan_id'  => 'required|exists:karyawans,id',
+            'catatan_admin' => 'nullable|string|max:255'
+        ]);
+
+        $transaksi = Transaksi::find($request->transaksi_id);
+        $transaksi->update([
+            'karyawan_id' => $request->karyawan_id,
+            'catatan_admin' => $request->catatan_admin,
+        ]);
+
+        Session::flash('success', 'Karyawan dan Catatan Berhasil Diperbarui!');
+        return redirect()->back();
     }
 }

@@ -14,6 +14,9 @@
     @endif
     <div class="card">
         <div class="card-body">
+            <h4 class="card-title">
+                <a href="{{ url('add-order') }}" class="btn btn-primary">Tambah</a>
+            </h4>
             <div class="table-responsive m-t-0">
                 <table id="myTable" class="table display table-bordered table-striped">
                     <thead>
@@ -21,11 +24,13 @@
                             <th>#</th>
                             <th>No Resi</th>
                             <th>TGL Transaksi</th>
-                            <th>Customer</th>
+                            <th>Karyawan</th>
                             <th>Status Order</th>
                             <th>Status Payment</th>
                             <th>Jenis Laundri</th>
                             <th>Total</th>
+                            <th>Catatan Admin</th>
+                            <th>Catatan Customer</th>
                             <th>Action</th> <!-- Added Action column -->
                         </tr>
                     </thead>
@@ -36,7 +41,7 @@
                                 <td>{{ $no }}</td>
                                 <td style="font-weight:bold; font-color:black">{{ $item->invoice }}</td>
                                 <td>{{ carbon\carbon::parse($item->tgl_transaksi)->format('d-m-y') }}</td>
-                                <td>{{ $item->customer }}</td>
+                                <td>{{ $item->karyawan ? $item->karyawan->name : 'Karyawan Tidak Tersedia' }}</td>
                                 <td>
                                     @if ($item->status_order == 'Done')
                                         <span class="label label-success">Selesai</span>
@@ -58,6 +63,8 @@
                                 <td>
                                     {{ Rupiah::getRupiah($item->harga_akhir) }}
                                 </td>
+                                <td>{{ $item->catatan_admin }}</td>
+                                <td>{{ $item->catatan_customer }}</td>
 
                                 <!-- Action Buttons Column -->
                                 <td>

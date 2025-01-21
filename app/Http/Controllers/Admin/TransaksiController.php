@@ -67,14 +67,21 @@ class TransaksiController extends Controller
      */
     public function invoice(Request $request)
     {
+        // Ambil semua transaksi dengan invoice tertentu
         $invoice = Transaksi::with('price')
             ->where('invoice', $request->invoice)
             ->orderBy('id', 'DESC')
             ->get();
 
-        $dataInvoice = Transaksi::with('customers.users')
+        // Ambil transaksi utama untuk data invoice
+        $dataInvoice = Transaksi::with('customers') // Pastikan relasi 'customer' digunakan
             ->where('invoice', $request->invoice)
             ->first();
+
+        // Debug untuk memeriksa data
+        if (!$dataInvoice) {
+            return back()->with('error', 'Data invoice tidak ditemukan.');
+        }
 
         return view('modul_admin.transaksi.invoice', compact('invoice', 'dataInvoice'));
     }

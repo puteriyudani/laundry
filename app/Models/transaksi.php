@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class transaksi extends Model
+class Transaksi extends Model
 {
     use Notifiable;
 
@@ -36,7 +36,7 @@ class transaksi extends Model
         return $this->belongsTo(Harga::class, 'harga_id', 'id');
     }
 
-    // Relasi ke model Customer
+    // Relasi ke model User
     public function customers()
     {
         return $this->belongsTo(User::class, 'customer_id', 'id');
